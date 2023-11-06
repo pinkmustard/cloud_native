@@ -1,0 +1,9 @@
+/*!
+ * Start Bootstrap - Blog Post (https://startbootstrap.com/templates/blog-post)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-blog-post/blob/master/LICENSE)
+ * 페이지 내용 안가려지면서 내려도 목록이 있도록 표시
+ */
+ body {
+    padding-top: 56px;
+  }
