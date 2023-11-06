@@ -9,3 +9,6 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
     # author: 추후 작성
     def __str__(self):
         return f'[{self.pk}]{self.title}' #해당 포스트의 pk와 타이틀 값
+    
+    def get_absolute_url(self):
+        return f'/blog/{self.pk}' #모델의 레코드별 url 생성 규칙 정의
