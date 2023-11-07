@@ -16,7 +16,7 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
         return f'[{self.pk}]{self.title}' #해당 포스트의 pk와 타이틀 값
     
     def get_absolute_url(self):
-        return f'/blog/{self.pk}' #모델의 레코드별 url 생성 규칙 정의
+        return f'/blog/{self.pk}/' #모델의 레코드별 url 생성 규칙 정의
     
     def get_file_name(self): # 파일 경로 제외 파일명만 나오게
         return os.path.basename(self.file_upload.name)
