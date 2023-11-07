@@ -3,6 +3,7 @@ import os
 
 class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장하여 만듦
     title = models.CharField(max_length=30) # title필드는 CharField(문자담는)클래스로 만들고 최대길이 30
+    hook_text = models.CharField(max_length=100, blank=True)
     content = models.TextField() # 길이에 제한이 없는 TextField
     
     head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True) #이미지를 저장할 폴더의 경로 귀칙 지정
