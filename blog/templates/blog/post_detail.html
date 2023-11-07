@@ -9,6 +9,8 @@
   <title>{{ post.title }} - Blog</title>
   <!--부트스트랩 static설정-->
   <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
+  <!--아이콘 스크립트-->
+  <script src="https://kit.fontawesome.com/3891066b59.js" crossorigin="anonymous"></script>
   <!-- 메뉴바가 컨텐츠 안가리게 하는 css -->
   <link rel="stylesheet" href="{% static 'blog/css/blog-post.css' %}" media="screen">
 </head>
@@ -68,10 +70,29 @@
         {% else %}
         <img class="img-fluid rounded" src="https://picsum.photos/seed/{{post.id}}/800/200" alt="random_image">
         {% endif %}
-        
+
         <hr>
-        <!-- 포스트 컨텐츠 -->
+        <!-- Post Content -->
         <p>{{ post.content }}</p>
+
+        {% if post.file_upload %} <!--다운로드 버튼, 파일마다 다르게-->
+        <a href="{{ post.file_upload.url }}" class="btn btn-outline-dark" role="button"download>
+          Download:
+
+                    {% if post.get_file_ext == 'csv' %}
+                        <i class="fa-solid fa-file-csv"></i>
+                    {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
+                        <i class="fa-solid fa-file-excel"></i>
+                    {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
+                        <i class="fa-solid fa-file-word"></i>
+                    {% else %}
+                        <i class="fa-solid fa-file"></i>
+                    {% endif %}
+
+                    {{ post.get_file_name }}
+        </a>
+        {% endif %}
+
         <hr>
         <!-- Comments Form -->
         <div class="card my-4">

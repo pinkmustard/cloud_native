@@ -1,4 +1,5 @@
 from django.db import models
+import os
 
 class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장하여 만듦
     title = models.CharField(max_length=30) # title필드는 CharField(문자담는)클래스로 만들고 최대길이 30
@@ -15,3 +16,9 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
     
     def get_absolute_url(self):
         return f'/blog/{self.pk}' #모델의 레코드별 url 생성 규칙 정의
+    
+    def get_file_name(self):
+        return os.path.basename(self.file_upload.name)
+
+    def get_file_ext(self):
+        return self.get_file_name().split('.')[-1]
