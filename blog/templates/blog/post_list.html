@@ -86,8 +86,11 @@
     <!--컨테이너-->
     <div class="container my-3">
         <div class="row">
-            <div class="col-md-8 col-lg-9">
+            <div class="col-md-8 col-lg-9" id="main-area"> <!--main area설정-->
                 <h1>Blog</h1>
+                <!--post_list에 포스트가 있다면 실행-->
+                {% if post_list.exists %}
+
                 {% for p in post_list %}
                 <!--블로그 포스트-->
                 <div class="card mb-4">
@@ -111,7 +114,9 @@
                     </div>
                 </div>
                 {% endfor %}
-
+                {% else %}
+                <h3>아직 게시물이 없습니다.</h3>
+                {% endif %}
                 <!--아래 버튼-->
                 <nav aria-label="Pagination">
                     <hr class="my-0" />
