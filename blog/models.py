@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 import os 
 
 class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장하여 만듦
@@ -11,9 +12,11 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
     
     created_at = models.DateTimeField(auto_now_add=True) # datetime필드로 만듦, 시간 자동
     update_at = models.DateTimeField(auto_now=True) #업데이트도 자동 시간 추가
-    # author: 추후 작성
+    
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     def __str__(self):
-        return f'[{self.pk}]{self.title}' #해당 포스트의 pk와 타이틀 값
+        return f'[{self.pk}]{self.title} :: {self.author}' #해당 포스트의 pk와 타이틀 값
     
     def get_absolute_url(self):
         return f'/blog/{self.pk}/' #모델의 레코드별 url 생성 규칙 정의
