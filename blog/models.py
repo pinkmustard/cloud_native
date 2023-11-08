@@ -42,7 +42,7 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
     
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
     
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True) # 포스트 모델에 태그 필드 추가
     
     def __str__(self):
         return f'[{self.pk}]{self.title} :: {self.author}' #해당 포스트의 pk와 타이틀 값
