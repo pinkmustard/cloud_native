@@ -1,14 +1,22 @@
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import Post
+from .models import Post, Category
 
-class PostList(ListView): # 여러 포스트 나열은 리스트뷰
-    model = Post
-    ordering = '-pk' # 최신글부터 표시
 
-class PostDetail(DetailView): # 포스트 상세 페이지 만들기
+class PostList(ListView):
     model = Post
-    
-# FBV에서 CBV로 가면서 일단 주석처리
+    ordering = '-pk'
+
+    def get_context_data(self, **kwargs):
+        context = super(PostList, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_post_count'] = Post.objects.filter(category=None).count()
+        return context
+
+
+class PostDetail(DetailView):
+    model = Post
+
 # def index(request):
 #     posts = Post.objects.all().order_by('-pk')
 #
@@ -20,13 +28,14 @@ class PostDetail(DetailView): # 포스트 상세 페이지 만들기
 #         }
 #     )
 
-def single_post_page(request, pk):
-    post = Post.objects.get(pk=pk)
 
-    return render(
-        request,
-        'blog/single_post_page.html',
-        {
-            'post': post,
-        }
-    )
+# def single_post_page(request, pk):
+#     post = Post.objects.get(pk=pk)
+#
+#     return render(
+#         request,
+#         'blog/single_post_page.html',
+#         {
+#             'post': post,
+#         }
+#     )
