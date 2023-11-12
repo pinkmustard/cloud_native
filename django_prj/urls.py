@@ -24,6 +24,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
     path('markdownx/', include('markdownx.urls')), # 마크다운 경로
+    path('accounts/', include('allauth.urls')),
     path('', include('single_pages.urls')),
 ]
 
