@@ -1,5 +1,13 @@
 {% extends "blog/base.html" %}
 {% block main_area %}
+
+    <!--로그인이 되어 있는 경우에 사용자가 최고 관리자이거나 스태프일 때만 이 버튼이 보이도록 설정-->
+    {% if user.is_authenticated%}
+    {% if user.is_superuser or user.is_staff %}
+    <a class="btn btn-info btn-sm float-right" href="/blog/create_post/" role="button"><i class="fas fa-pen"></i>&nbsp;&nbsp;New Post</a>
+    {% endif %}
+    {% endif %}
+
     <!--카테고리가 context로 넘어올때 그 카테고리 이름을 뱃지 형태로 출력-->
     <h1>Blog 
         {% if category %}<span class="badge badge-secondary">{{ category }}</span>{% endif %}
