@@ -23,6 +23,7 @@ from django.conf.urls.static import static #이미지 업로드 사용
 urlpatterns = [
     path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
+    path('markdownx/', include('markdownx.urls')), # 마크다운 경로
     path('', include('single_pages.urls')),
 ]
 

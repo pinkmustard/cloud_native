@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdown
 import os 
 
 # 태그 모델 만들기
@@ -30,7 +32,7 @@ class Category(models.Model):
 class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장하여 만듦
     title = models.CharField(max_length=30) # title필드는 CharField(문자담는)클래스로 만들고 최대길이 30
     hook_text = models.CharField(max_length=100, blank=True) # 요약
-    content = models.TextField() # 길이에 제한이 없는 TextField
+    content = MarkdownxField() #마크다운
     
     head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True) #이미지를 저장할 폴더의 경로 귀칙 지정
     file_upload = models.FileField(upload_to='blog/files/%Y/%m/%d/', blank=True) # 파일을 업로드할 폴더의 경로 규칙 지정 
@@ -55,3 +57,6 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
 
     def get_file_ext(self): #확장자를 찾아냄
         return self.get_file_name().split('.')[-1]
+    
+    def get_content_markdown(self): #작성한 내용 마크다운으로 보이도록 매서드 만들기
+        return markdown(self.content)
