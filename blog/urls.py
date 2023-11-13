@@ -2,6 +2,7 @@ from django. urls import path
 from . import views
 
 urlpatterns = [
+    path('delete_comment/<int:pk>/', views.delete_comment), # 댓글 삭제를 위한 Url추가 FBV스타일
     path('update_comment/<int:pk>/', views.CommentUpdate.as_view()), # 댓글 수정 페이지의 경로 추가cbv스타일
     path('update_post/<int:pk>/', views.PostUpdate.as_view()), #업데이트접근시 postupdate쿨래스 사용
     path('create_post/', views.PostCreate.as_view()), #create_post로 url을 입력하는 경우 postcreate클래스 사용

@@ -175,3 +175,14 @@ class CommentUpdate(LoginRequiredMixin, UpdateView):
             return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
+
+# 인자로 받은 pk값과 같은 pk값을 가진 댓글을 쿼리셋으로 받아 comment 변수에 저장 없다면 404에러
+# delete_comment()가 작성자 확인
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    post = comment.post
+    if request.user.is_authenticated and request.user == comment.author:
+        comment.delete()
+        return redirect(post.get_absolute_url())
+    else:
+        raise PermissionDenied
