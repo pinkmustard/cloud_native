@@ -62,27 +62,28 @@
     {% if is_paginated %}
         <!-- Pagination -->
         <ul class="pagination justify-content-center mb-4">
-            <!--다음페이지가 있는지 확인하여 버튼을 비활성화 상태로 할지의 여부를 결정-->
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&larr; Older</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" href="#">&larr; Older</a>
-                </li>
-            {% endif %}
-            
             <!--이전페이지가 있는지 확인하여 버튼을 비활성화 상태로 할 지 여부를 결정-->
             {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Newer &rarr;</a>
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&larr; 최신</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="#">Newer &rarr;</a>
+                    <a class="page-link" href="#">&larr; 최신</a>
                 </li>
             {% endif %}
+            
+            <!--다음페이지가 있는지 확인하여 버튼을 비활성화 상태로 할지의 여부를 결정-->
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">과거 &rarr;</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">과거 &rarr;</a>
+                </li>
+            {% endif %}
+            
         </ul>
     {% endif %}
 {% endblock %}
