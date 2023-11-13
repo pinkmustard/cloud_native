@@ -60,3 +60,17 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
     
     def get_content_markdown(self): #작성한 내용 마크다운으로 보이도록 매서드 만들기
         return markdown(self.content)
+
+# 댓글 기능, 여러 댓글이 한 포스트의 댓글이 되기 때문에 외래키 사용
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.author}::{self.content}'
+
+    def get_absolute_url(self):
+        return f'{self.post.get_absolute_url()}#comment-{self.pk}'
