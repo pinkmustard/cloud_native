@@ -91,17 +91,30 @@
 </div>
   <!--댓글 있는지 if문-->
   {% if post.comment_set.exists %}
-            {% for comment in post.comment_set.iterator %}
+    {% for comment in post.comment_set.iterator %}
   <!-- Single Comment -->
   <div class="media mb-4" id="comment-{{ comment.pk }}">
     <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
     <div class="media-body">
+      <!--수정버튼 추가, 댓글 작성자 본인(author)에게만 보이도록 if문 작성-->
+      {% if user.is_authenticated and comment.author == user %}
+        <a role="button"
+            class="btn btn-sm btn-info float-right"
+            id="comment-{{ comment.pk }}-update-btn"
+            href="/blog/update_comment/{{ comment.pk }}/">
+            edit
+        </a>
+      {% endif %}
       <h5 class="mt-0">
         <!--댓글을 단 사람의 사용자 명이 나오도록하고, 그 뒤에는 작성일이 나오도록-->
         {{ comment.author.username }}
         &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small>
       </h5>
       <p>{{ comment.content | linebreaks }}</p>
+      <!--Updated뒤 수정한 시각을 출력하는 기능 추가-->
+      {% if comment.created_at != comment.modified_at %}
+        <p class="text-muted float-right"><small>Updated: {{ comment.modified_at }}</small></p>
+      {% endif %}
     </div>
   </div>
   {% endfor %}

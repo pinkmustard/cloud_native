@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils.text import slugify
 from django.shortcuts import get_object_or_404
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Comment
 from .forms import CommentForm
 from django.core.exceptions import PermissionDenied
 
@@ -163,4 +163,15 @@ def new_comment(request, pk):
             return redirect(post.get_absolute_url())
     else:
         raise PermissionDenied
-    
+
+# Post방식으로 정보를 보내는 상황을 막기위해 LoginRequtredMixin포함
+# dispatch는 웹사이트 방문자의 요청이 get인지 post인지 판단하는 열할을 함.
+class CommentUpdate(LoginRequiredMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
