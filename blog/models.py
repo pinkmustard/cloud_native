@@ -74,3 +74,10 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return f'{self.post.get_absolute_url()}#comment-{self.pk}'
+    
+    # 댓글에 이미지 뜨게 하기 if는 구글 else는 레알마드리드 로고
+    def get_avatar_url(self):
+        if self.author.socialaccount_set.exists():
+            return self.author.socialaccount_set.first().get_avatar_url()
+        else:
+            return 'https://1000logos.net/wp-content/uploads/2017/06/Real-Madrid-symbol.jpg'
