@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils.text import slugify
+from django.shortcuts import get_object_or_404
 from .models import Post, Category, Tag
+from .forms import CommentForm
 from django.core.exceptions import PermissionDenied
 
 
@@ -24,6 +26,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
+        context['comment_form'] = CommentForm #댓글
         return context
 
 
@@ -144,26 +147,20 @@ def tag_page(request, slug):
         }
     )
 
+def new_comment(request, pk):
+    if request.user.is_authenticated: #로그인하지 않은 경우 permissiondenied설정
+        post = get_object_or_404(Post, pk=pk) # pk를 인자로 받아 댓글을 달 포스트를 쿼리를 날려 가져옴
 
-# def index(request):
-#     posts = Post.objects.all().order_by('-pk')
-#
-#     return render(
-#         request,
-#         'blog/index.html',
-#         {
-#             'posts': posts,
-#         }
-#     )
-
-
-# def single_post_page(request, pk):
-#     post = Post.objects.get(pk=pk)
-#
-#     return render(
-#         request,
-#         'blog/single_post_page.html',
-#         {
-#             'post': post,
-#         }
-#     )
+        if request.method == 'POST': # sumit누르면 post방식으로 전달
+            comment_form = CommentForm(request.POST) # 정상적으로 폼을 작성하고 요청이 들어왔다면 commentForm의 형태로 가져옴
+            if comment_form.is_valid(): # 폼이 유효하게 작성되었다면 해당 내용으로 레코드를 만들어 데이터베이스에 저장
+                comment = comment_form.save(commit=False)
+                comment.post = post
+                comment.author = request.user
+                comment.save()
+                return redirect(comment.get_absolute_url()) #comment의 url로 리다이렉트
+        else:
+            return redirect(post.get_absolute_url())
+    else:
+        raise PermissionDenied
+    

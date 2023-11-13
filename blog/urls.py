@@ -6,6 +6,7 @@ urlpatterns = [
     path('create_post/', views.PostCreate.as_view()), #create_post로 url을 입력하는 경우 postcreate클래스 사용
     path('tag/<str:slug>/', views.tag_page),
     path('category/<str:slug>/', views.category_page),
+    path('<int:pk>/new_comment/', views.new_comment), #url에 있는 Pk로 포스트를 찾고, 그 포스트의 댓글을 달기 위해
     path('<int:pk>/', views.PostDetail.as_view()),
     path('', views.PostList.as_view()),
     # path('<int:pk>/', views.single_post_page), #s_p_p함수 활용 처리 blog/뒤 정수 url 처리 //얘도 일단 주석
