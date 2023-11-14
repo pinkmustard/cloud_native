@@ -60,6 +60,12 @@ class Post(models.Model): # post모델은 models모듈의 mModel클래스 확장
     
     def get_content_markdown(self): #작성한 내용 마크다운으로 보이도록 매서드 만들기
         return markdown(self.content)
+    
+    def get_avatar_url(self):
+        if self.author.socialaccount_set.exists():
+            return self.author.socialaccount_set.first().get_avatar_url()
+        else:
+            return f'https://1000logos.net/wp-content/uploads/2017/06/Real-Madrid-symbol.jpg'
 
 # 댓글 기능, 여러 댓글이 한 포스트의 댓글이 되기 때문에 외래키 사용
 class Comment(models.Model):
