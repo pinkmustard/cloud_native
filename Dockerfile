@@ -1,5 +1,5 @@
 # 파이썬 버전 알파인,슬림 버스터 다 오류로 기본 파이썬 이미지 로드
-FROM python:3.8.0
+FROM python:3.8.18
 
 # 프로젝트 작업 폴더를 /usr/src/app으로 지정
 WORKDIR /usr/src/app
