@@ -29,3 +29,5 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# gunicorn css로드 문제를 해결하기 위해 static_root경로를 지정
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

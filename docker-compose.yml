@@ -6,8 +6,8 @@ services:
   web:
     # 현재 폴더를 빌드, 도커파일을 이용해 컨테이너 이미지를 만듦
     build: .
-    # 런서버 명령어 대신 입력
-    command: python manage.py runserver 0.0.0.0:8000
+    # 런서버 명령어 대신 입력 # gunicorn으로 런
+    command: gunicorn django_prj.wsgi:application --bind 0.0.0.0:8000
     # 로컬 컴퓨터의 폴더와 도커의 폴더를 연결
     volumes:
       - ./:/usr/src/app/

@@ -140,6 +140,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# gunicorn의 css 로드 오류를 해결하기 위한 방법
+STATIC_ROOT = os.path.join(BASE_DIR, '_static')
 
 # 이미지 저장
 MEDIA_URL = '/media/' 
