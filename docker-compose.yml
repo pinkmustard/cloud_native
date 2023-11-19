@@ -3,6 +3,15 @@ version: '3'
 
 services:
   # web이라는 서비스 하나만 실행
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/usr/src/app/_static
+      - media_volume:/usr/src/app/_media
+    ports:
+      - 80:80
+    depends_on:
+      - web
   web:
     # 현재 폴더를 빌드, 도커파일을 이용해 컨테이너 이미지를 만듦
     build: .
@@ -10,10 +19,11 @@ services:
     command: gunicorn django_prj.wsgi:application --bind 0.0.0.0:8000
     # 로컬 컴퓨터의 폴더와 도커의 폴더를 연결
     volumes:
-      - ./:/usr/src/app/
+      - static_volume:/usr/src/app/_static
+      - media_volume:/usr/src/app/_media
     # 포트 설정
     ports:
-      - 8000:8000
+      - 8000
     # 개발 환경 파일 지정
     env_file:
       - ./.env.prod
@@ -27,3 +37,5 @@ services:
       - ./.env.prod.db
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
